@@ -97,7 +97,8 @@ class Tictactoe
   def alternate_players
     if @current_player == @human
       @current_player = @computer
-    else @current_player = @human
+    else 
+      @current_player = @human
     end
   end
 
@@ -123,4 +124,4 @@ class Tictactoe
   end
 end
 
-game = Tictactoe.new.play
+Tictactoe.new.play
