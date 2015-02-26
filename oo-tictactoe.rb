@@ -49,20 +49,20 @@ end
 
 class Square
   attr_reader :value
-  def initialize(v)
-    @value = v 
+  def initialize(marker)
+    @marker = marker 
   end
 
   def empty
-    @value == ''
+    @marker == ''
   end
 
   def mark(marker)
-    @value = marker
+    @marker = marker
   end
 
   def to_s
-    @value
+    @marker
   end
 end
 
