@@ -2,29 +2,29 @@ class Board
   WINNING_LINES = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
 
   def initialize
-    @data = {}
-    (1..9).each{|position| @data[position] = Square.new('')}
+    @space = {}
+    (1..9).each{|position| @space[position] = Square.new('')}
   end
 
   def unmarked_squares
-    @data.select{|_,square| square.empty}.values
+    @space.select{|_,square| square.empty}.values
   end
 
   def untaken_positions 
-    @data.select{|_,square| square.empty}.keys
+    @space.select{|_,square| square.empty}.keys
   end
 
-  def all_squares_marked
+  def all_squares_marked?
     unmarked_squares.size == 0
   end
 
   def mark_square(position, marker)
-    @data[position].mark(marker)
+    @space[position].mark(marker)
   end
 
-  def three_squares_in_a_row(marker)
+  def three_squares_in_a_row?(marker)
     WINNING_LINES.each do |line|
-      return true if @data[line[0]].value == marker && @data[line[1]].value == marker && @data[line[2]].value == marker
+      return true if @space[line[0]].value == marker && @space[line[1]].value == marker && @space[line[2]].value == marker
     end
     false
   end
@@ -33,15 +33,15 @@ class Board
     system 'clear'
     puts
     puts "     |     |"
-    puts "  #{@data[1]}  |  #{@data[2]}  |  #{@data[3]}"
+    puts "  #{@space[1]}  |  #{@space[2]}  |  #{@space[3]}"
     puts "     |     |"
     puts "-----+-----+-----"
     puts "     |     |"
-    puts "  #{@data[4]}  |  #{@data[5]}  |  #{@data[6]}"
+    puts "  #{@space[4]}  |  #{@space[5]}  |  #{@space[6]}"
     puts "     |     |"
     puts "-----+-----+-----"
     puts "     |     |"
-    puts "  #{@data[7]}  |  #{@data[8]}  |  #{@data[9]}"
+    puts "  #{@space[7]}  |  #{@space[8]}  |  #{@space[9]}"
     puts "     |     |"
     puts
   end
@@ -102,8 +102,8 @@ class Tictactoe
     end
   end
 
-  def current_player_wins
-    @board.three_squares_in_a_row(@current_player.marker) 
+  def current_player_wins?
+    @board.three_squares_in_a_row?(@current_player.marker) 
   end
 
   def play
@@ -111,10 +111,10 @@ class Tictactoe
     loop do  
       current_player_marks_square
       @board.draw
-      if current_player_wins
+      if current_player_wins?
         puts "The winner is #{@current_player.name}"
         break
-      elsif @board.all_squares_marked 
+      elsif @board.all_squares_marked? 
         puts "It's a tie."
         break
       else
